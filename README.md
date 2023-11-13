@@ -56,6 +56,7 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
     sudo systemctl status jenkins
  ```
 - Provide the required permission to jenkins.sh file
+
 ```
   sudo chmod 777 jenkins.sh
   ./jenkins.sh    # this will installl jenkins
@@ -73,6 +74,7 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
 #### Step 1b: Install Docker and run SonarQueb container (using docker)
 
 - Install docker on the EC2 using the below commands
+
 ```
   sudo apt-get update
   sudo apt-get install docker.io -y
@@ -80,7 +82,9 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
   newgrp docker
   sudo chmod 777 /var/run/docker.sock
 ```
+
 - After installing docker, create a SonarQube container. As SonarQube container listens on port 9000, we need to open a new Inbound Rule in the EC2 Security Group for port 9000
+
 ```
   docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
 ```
@@ -105,16 +109,21 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
 
 ### Step 2: Install Terraform (on Jenkins Server)
 - On the EC2 terminal, run the following command to install terraform
+
 ```
   wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
   echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
   sudo apt update && sudo apt install terraform
 ```
+
 - Check terraform version
+
 ```
   terraform --version
 ```
+
 - Copy the terraform path to clipboard (we need this to setup the Terraform tools)
+
 ```
   which terraform
 ```
@@ -146,21 +155,25 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
 - In your GitHub repositoory, cerate the following files for Terraform
 
 backend.td
+
 ```
   add code
 ```
 
 provider.tf
+
 ```
   add code
 ```
 
 main.tf
+
 ```
   add code
 ```
 
 variables.tf
+
 ```
   add code
 ```
@@ -191,6 +204,7 @@ Now create a _website.sh_ file to add to the UserData section of the EC2 instanc
 #### Step 4a: Create a Jenkins pipeline
  
 - Let's create a pipeline jobs in Jenkisn using declarative way
+
 ```
   pipeline{
     agent any
@@ -249,6 +263,7 @@ Now create a _website.sh_ file to add to the UserData section of the EC2 instanc
 2. Open a terminal.
 
 3. Run the following command to add a user (replace <username> with the actual username) to the sudo group:
+
 ```
    sudo usermod -aG sudo <username>
 ``` 
