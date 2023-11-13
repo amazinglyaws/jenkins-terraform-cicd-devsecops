@@ -256,7 +256,7 @@ Now create a _website.sh_ file to add to the UserData section of the EC2 instanc
   
   ```
 
-#### Step ba: Setup permission for jenkins user to run the job
+#### Step 4b: Setup permission for jenkins user to run the job
 
 1. Log in to your Ubuntu system as a user with sudo privileges, or log in as the root user.
 
