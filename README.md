@@ -13,21 +13,21 @@ Tools : AWS EC2, Terraform (S3, DynamoDB), GitHub, Jenkins, Docker, SonarQube, T
 
 # Pre-requisites
 - Create AWS Account
-  This account with administrative or necessary privileges is required to manage AWS resources
+  - This account with administrative or necessary privileges is required to manage AWS resources
 - Create S3 bucket for Terraform state
-  An S3 bucket is required to securly store the Terraform state file remotely
+  - An S3 bucket is required to securly store the Terraform state file remotely
 - Create Dynamo DB table to Terraform lock
-  A Dynamo DB table is required enable locking for Terraform state management
+  - A Dynamo DB table is required enable locking for Terraform state management
 - Setup Jenkins on an EC2 instance
-  Setup and configure Jenkins for running the pipeline and confifure necessary plugins for AWS and Terrform integration
+  - Setup and configure Jenkins for running the pipeline and confifure necessary plugins for AWS and Terrform integration
 - Install Terrform on Jenkins server
-  Terraform plugin needs to be installed on this server to execute the Terraform script from the CI/CD pipeline
+  - Terraform plugin needs to be installed on this server to execute the Terraform script from the CI/CD pipeline
 - Setup Terraform files in GitHub
-  Terraform configuration files should be availale in GitHub SCM 
+  - Terraform configuration files should be availale in GitHub SCM 
 - Setup IAM role for Jenkins EC2 server
-  Create a IAM role and add required permissions for Jenkins EC2 server for provisioning AWS resources (using Terraform), Dynamo DB access, S3 bucket operations etc.
+  - Create a IAM role and add required permissions for Jenkins EC2 server for provisioning AWS resources (using Terraform), Dynamo DB access, S3 bucket operations etc.
 - Application as docker image
-  Please note we are not going to create any application code for this demo. Instead we will be using a pre-built image
+  - Please note we are not going to create any application code for this demo. Instead we will be using a pre-built image from the dockerhub repository
   
 ### Step 1: Launch an EC2 instance (t2.medium)
 In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenkins, SonarQube, Docker, Trivy and Terraform
