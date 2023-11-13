@@ -11,8 +11,8 @@ variable "instance_type" {
   default     = "t2.medium"
 }
 variable "ami_id" {
-  description = "AMI for Ubuntu Ec2 instance"
-  default     = "ami-0f5ee92e2d63afc18"
+  description = "AMI for Ubuntu EC2 instance"
+  default     = "ami-0fc5d935ebf8bc3bc"  
 }
 
 /*
