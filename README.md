@@ -1,7 +1,7 @@
 # Deploy a dockerised application to AWS using Jenking CICD and Terraform using DevSecOps practices
 Deploy an application to AWS using Jenkins and Terraform leveraging DevSecOps practices
 
-Tools : AWS EC2, Terraform (S3, DynamoDB), GitHub, Jenkins, Docker, SonarQube, Trivy, Tfsec
+Tools : AWS EC2, Terraform (S3, DynamoDB), GitHub, Jenkins, Docker, SonarQube, Trivy, Tfsec 
 
 ### Architecture
 
