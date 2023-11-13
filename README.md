@@ -33,7 +33,7 @@ Tools : AWS EC2, Terraform (S3, DynamoDB), GitHub, Jenkins, Docker, SonarQube, T
 In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenkins, SonarQube, Docker, Trivy and Terraform
 #### Step 1a: Install Jenkins
 - Connect to your Ec2 Instance (Jenkins Server) from your local machine
-- In the Jenkins server consolde, create a jenkins.sh file as follows and copy the contents
+- In the Jenkins server console, create a jenkins.sh file as follows and copy the contents
   ```
     vi jenkins.sh
   ```
@@ -54,19 +54,19 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
     sudo apt-get install jenkins -y
     sudo systemctl start jenkins
     sudo systemctl status jenkins
- ```
+  ```
 - Provide the required permission to jenkins.sh file
 
-```
-  sudo chmod 777 jenkins.sh
-  ./jenkins.sh    # this will installl jenkins
-```
+  ```
+    sudo chmod 777 jenkins.sh
+    ./jenkins.sh    # this will installl jenkins
+  ```
 - Go back to AWS console and create a Security Group for thie EC2 instance. Open an Inbound port 8080, as Jenkins listens on 8080 by default
 - Now copy the Public IP of the EC2 instance and open a browser on you local machine and type <public ip>:8080
 - Copy this command and execute on the EC2 terminal to get the Jekins administrator password
-```
-  sudo cat /var/lib/jenkins/secrets/initialAdminPassword
-```
+  ```
+    sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+  ```
 - Login using the admin credentials and install the suggested plugins
 - Create a user and click 'Save and Continue'
 - Congratulations, you have installed Jenkins successfully on the EC2 instance
@@ -75,19 +75,19 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
 
 - Install docker on the EC2 using the below commands
 
-```
-  sudo apt-get update
-  sudo apt-get install docker.io -y
-  sudo usermod -aG docker $USER   #my case is ubuntu
-  newgrp docker
-  sudo chmod 777 /var/run/docker.sock
-```
+  ```
+    sudo apt-get update
+    sudo apt-get install docker.io -y
+    sudo usermod -aG docker $USER   #my case is ubuntu
+    newgrp docker
+    sudo chmod 777 /var/run/docker.sock
+  ```
 
 - After installing docker, create a SonarQube container. As SonarQube container listens on port 9000, we need to open a new Inbound Rule in the EC2 Security Group for port 9000
 
-```
-  docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
-```
+  ```
+    docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
+  ```
 - Now the SonarQube container should be up and running
 - Copy the EC2 public ip, open the browser on your local machine and enter as shown <EC2 public ip>:9000.SonarQube login screen should be displayed
 - Enter the username and password as 'admin'/'admin' (without '') and update with a new password
@@ -110,23 +110,23 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
 ### Step 2: Install Terraform (on Jenkins Server)
 - On the EC2 terminal, run the following command to install terraform
 
-```
-  wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-  echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-  sudo apt update && sudo apt install terraform
-```
+  ```
+    wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+    echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+    sudo apt update && sudo apt install terraform
+  ```
 
 - Check terraform version
 
-```
-  terraform --version
-```
+  ```
+    terraform --version
+  ```
 
 - Copy the terraform path to clipboard (we need this to setup the Terraform tools)
 
-```
-  which terraform
-```
+  ```
+    which terraform
+  ```
 
 #### Step 2a: Configure Java and Terraform tools in Jenkins Global Tools section 
 - Go to Manage Jenkins > Tools > JDK
@@ -156,48 +156,48 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
 
 backend.td
 
-```
-  add code
-```
+  ```
+    add code
+  ```
 
 provider.tf
 
-```
-  add code
-```
+  ```
+    add code
+  ```
 
 main.tf
 
-```
-  add code
-```
+  ```
+    add code
+  ```
 
 variables.tf
 
-```
-  add code
-```
+  ```
+    add code
+  ```
 
 Now create a _website.sh_ file to add to the UserData section of the EC2 instance (refer tp main.tf)
 
-```
-  #!/bin/bash
-
-  # Update the package manager and install Docker
-  sudo apt-get update -y
-  sudo apt-get install -y docker.io
+  ```
+    #!/bin/bash
   
-  # Start the Docker service
-  sudo systemctl start docker
+    # Update the package manager and install Docker
+    sudo apt-get update -y
+    sudo apt-get install -y docker.io
+    
+    # Start the Docker service
+    sudo systemctl start docker
+    
+    # Enable Docker to start on boot
+    sudo systemctl enable docker
+    
+    # Pull and run a simple Nginx web server container
+    sudo docker run -d --name zomato -p 3000:3000 sevenajay/zomato:latest
+    sudo docker run -d --name netflix -p 8081:80 sevenajay/netflix:latest
   
-  # Enable Docker to start on boot
-  sudo systemctl enable docker
-  
-  # Pull and run a simple Nginx web server container
-  sudo docker run -d --name zomato -p 3000:3000 sevenajay/zomato:latest
-  sudo docker run -d --name netflix -p 8081:80 sevenajay/netflix:latest
-
-```  
+  ```  
 
 ### Step 4: Setup Jenkins pipeline
 
@@ -205,56 +205,56 @@ Now create a _website.sh_ file to add to the UserData section of the EC2 instanc
  
 - Let's create a pipeline jobs in Jenkisn using declarative way
 
-```
-  pipeline{
-    agent any
-    tools{
-        jdk 'jdk17'
-        terraform 'terraform'
+  ```
+    pipeline{
+      agent any
+      tools{
+          jdk 'jdk17'
+          terraform 'terraform'
+      }
+      environment {
+          SCANNER_HOME=tool 'sonar-scanner'
+      }
+      stages {
+          stage('clean workspace'){
+              steps{
+                  cleanWs()
+              }
+          }
+          stage('Checkout from Git'){
+              steps{
+                  git branch: 'main', url: 'https://github.com/Aj7Ay/TERRAFORM-JENKINS-CICD.git'
+              }
+          }
+          stage('Terraform version'){
+               steps{
+                   sh 'terraform --version'
+                  }
+          }
+          stage("Sonarqube Analysis "){
+              steps{
+                  withSonarQubeEnv('sonar-server') {
+                      sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Terraform \
+                      -Dsonar.projectKey=Terraform '''
+                  }
+              }
+          }
+          stage("quality gate"){
+             steps {
+                  script {
+                      waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token' 
+                  }
+              } 
+          }
+          stage('TRIVY FS SCAN') {
+              steps {
+                  sh "trivy fs . > trivyfs.txt"
+              }
+          }
+      }
     }
-    environment {
-        SCANNER_HOME=tool 'sonar-scanner'
-    }
-    stages {
-        stage('clean workspace'){
-            steps{
-                cleanWs()
-            }
-        }
-        stage('Checkout from Git'){
-            steps{
-                git branch: 'main', url: 'https://github.com/Aj7Ay/TERRAFORM-JENKINS-CICD.git'
-            }
-        }
-        stage('Terraform version'){
-             steps{
-                 sh 'terraform --version'
-                }
-        }
-        stage("Sonarqube Analysis "){
-            steps{
-                withSonarQubeEnv('sonar-server') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Terraform \
-                    -Dsonar.projectKey=Terraform '''
-                }
-            }
-        }
-        stage("quality gate"){
-           steps {
-                script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token' 
-                }
-            } 
-        }
-        stage('TRIVY FS SCAN') {
-            steps {
-                sh "trivy fs . > trivyfs.txt"
-            }
-        }
-    }
-  }
-
-```
+  
+  ```
 
 #### Step ba: Setup permission for jenkins user to run the job
 
@@ -263,151 +263,154 @@ Now create a _website.sh_ file to add to the UserData section of the EC2 instanc
 2. Open a terminal.
 
 3. Run the following command to add a user (replace <username> with the actual username) to the sudo group:
-
-```
-   sudo usermod -aG sudo <username>
-``` 
+  
+  ```
+     sudo usermod -aG sudo <username>
+  ``` 
 
 4. After running the command, the user will have sudo privileges. They can now execute commands with superuser privileges using sudo.
 
-To test whether the user can use sudo, you can simply open a terminal and have the user run a command with sudo
-```
-  sydo apt update
-```
+- To test whether the user can use sudo, you can simply open a terminal and have the user run a command with sudo
+  
+  ```
+    sudo apt update
+  ```
+  
 5. Now add the below stages to your pipeline
-```
-   stage('Excutable permission to userdata'){
-      steps{
-          sh 'chmod 777 website.sh'
-      }
-  }
-  stage('Terraform init'){
-      steps{
-          sh 'terraform init'
-      }
-  }
-  stage('Terraform plan'){
-      steps{
-          sh 'terraform plan'
-      }
-  }
-
-```
+   
+  ```
+     stage('Excutable permission to userdata'){
+        steps{
+            sh 'chmod 777 website.sh'
+        }
+    }
+    stage('Terraform init'){
+        steps{
+            sh 'terraform init'
+        }
+    }
+    stage('Terraform plan'){
+        steps{
+            sh 'terraform plan'
+        }
+    }
+  
+  ```
 
 6. Adding **aqua tfsec** for scsecurity scanning of the Terraform files. For this demo this step is optional
 
 - install aqua tfsec using this command
-```
-  curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
-```
+  ```
+    curl -s https://raw.githubusercontent.com/aquasecurity/tfsec/master/scripts/install_linux.sh | bash
+  ```
 - to perform terraform security scanning, add this stage to your pipeline
-```
-  stage('Trivy terraform scan'){
-    steps{
-        sh 'tfsec . --no-color'
-       }
-   }
-```
+  ```
+    stage('Trivy terraform scan'){
+      steps{
+          sh 'tfsec . --no-color'
+         }
+     }
+  ```
 - if you run the pipleine now, it will trhow many security violations for the terraform file. So let's not use this stage for this demo
-- add this stage to the porpline
-```
-  stage('Terraform apply'){
-            steps{
-                sh 'terraform apply --auto-approve'
-            }
-        }
-```
-- add a parameterized step in the pipeline with two options : a) apply b) destroy. Add this insude pipeline job as shown - TODO
-- add the following stage in your pipeline. The selected option (apply or destroy) will be applied by terraform in the $action parameter when this stage executes
-```
-  stage('Terraform apply'){
+- add this stage to the pipeline
+  ```
+    stage('Terraform apply'){
               steps{
-                  sh 'terraform ${action} --auto-approve'
+                  sh 'terraform apply --auto-approve'
               }
           }
-```
+  ```
+- add a parameterized step in the pipeline with two options : a) apply b) destroy. Add this insude pipeline job as shown - TODO
+- add the following stage in your pipeline. The selected option (apply or destroy) will be applied by terraform in the $action parameter when this stage executes
+  ```
+    stage('Terraform apply'){
+                steps{
+                    sh 'terraform ${action} --auto-approve'
+                }
+            }
+  ```
 - if 'apply' was selected the terraform will creates the AWS infrastructure
 
 ### Step 5: Running the application
 - Go back to your local browser and enter the following to access the Zomato container app
-```
-  <EC2 instance-public-ip:3000> #zomato app container
-```
+  ```
+    <EC2 instance-public-ip:3000> #zomato app container
+  ```
 <img width="606" alt="image" src="https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/c64e4a16-e1dd-4cf3-85bd-0f715c79a773">
 
 ### Step 6: Clean up AWS resources using Terraform
 - To destroy the AWS resources, select the option 'destroy' at the 'Terraform apply' stage in the pipeline
 
 ### Complete jenkins pipeline
-```
-  pipeline{
-    agent any
-    tools{
-        jdk 'jdk17'
-        terraform 'terraform'
-    }
-    environment {
-        SCANNER_HOME=tool 'sonar-scanner'
-    }
-    stages {
-        stage('clean workspace'){
-            steps{
-                cleanWs()
-            }
-        }
-        stage('Checkout from Git'){
-            steps{
-                git branch: 'main', url: 'https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops.git'
-            }
-        }
-        stage('Terraform version'){
-             steps{
-                 sh 'terraform --version'
-                }
-        }
-        stage("Sonarqube Analysis "){
-            steps{
-                withSonarQubeEnv('sonar-server') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Terraform \
-                    -Dsonar.projectKey=Terraform '''
-                }
-            }
-        }
-        stage("quality gate"){
-           steps {
-                script {
-                    waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token' 
-                }
-            } 
-        }
-        stage('TRIVY FS SCAN') {
-            steps {
-                sh "trivy fs . > trivyfs.txt"
-            }
-        }
-        stage('Excutable permission to userdata'){
-            steps{
-                sh 'chmod 777 website.sh'
-            }
-        }
-        stage('Terraform init'){
-            steps{
-                sh 'terraform init'
-            }
-        }
-        stage('Terraform plan'){
-            steps{
-                sh 'terraform plan'
-            }
-        }
-        stage('Terraform apply'){
-            steps{
-                sh 'terraform ${action} --auto-approve'
-            }
-        }
-    }
-}
-```
+  ```
+    pipeline{
+      agent any
+      tools{
+          jdk 'jdk17'
+          terraform 'terraform'
+      }
+      environment {
+          SCANNER_HOME=tool 'sonar-scanner'
+      }
+      stages {
+          stage('clean workspace'){
+              steps{
+                  cleanWs()
+              }
+          }
+          stage('Checkout from Git'){
+              steps{
+                  git branch: 'main', url: 'https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops.git'
+              }
+          }
+          stage('Terraform version'){
+               steps{
+                   sh 'terraform --version'
+                  }
+          }
+          stage("Sonarqube Analysis "){
+              steps{
+                  withSonarQubeEnv('sonar-server') {
+                      sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName=Terraform \
+                      -Dsonar.projectKey=Terraform '''
+                  }
+              }
+          }
+          stage("quality gate"){
+             steps {
+                  script {
+                      waitForQualityGate abortPipeline: false, credentialsId: 'Sonar-token' 
+                  }
+              } 
+          }
+          stage('TRIVY FS SCAN') {
+              steps {
+                  sh "trivy fs . > trivyfs.txt"
+              }
+          }
+          stage('Excutable permission to userdata'){
+              steps{
+                  sh 'chmod 777 website.sh'
+              }
+          }
+          stage('Terraform init'){
+              steps{
+                  sh 'terraform init'
+              }
+          }
+          stage('Terraform plan'){
+              steps{
+                  sh 'terraform plan'
+              }
+          }
+          stage('Terraform apply'){
+              steps{
+                  sh 'terraform ${action} --auto-approve'
+              }
+          }
+      }
+  }
+  ```
 
 
 
