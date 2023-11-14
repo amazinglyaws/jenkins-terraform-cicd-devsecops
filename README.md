@@ -466,11 +466,21 @@ variables.tf
 
 
 ### Step 6: Destroy AWS resources created using Terraform
-- To destroy the AWS resources, select the option 'destroy' at the 'Terraform apply' stage in the pipeline
+- To destroy the AWS resources, go back to Jenkins pipeline select the option 'destroy' from 'Build with Parameter' option and run the pipeline
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/d6b5544a-73c3-4e53-a2f7-1b7c3d956d4c)
+
+- See the Jenkins build pipeline console ouput. You can see two AWS resouces (EC2 instance and SG) being destroyed
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/d626e84c-b5e0-495e-ab3f-df78fcca7515)
+  
+- Now head back to AWS EC2 console and check the status of EC2 instance 'SSN-EC2'. It should show as 'terminated'
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/8fb41f97-7390-49de-a42a-9170c51e9c39)
+
+- Now refresh the browser page where the zomato app was displayed. The page will throw error as shown. This is obvious as the EC2 server 'SSN-EC2' that hosted the Zomato application has been terminated!
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/b07814fc-d7e6-4462-b817-62dbb500fc66)
 
 
 ### Step 7: Cleaup AWS Resources
-- Stop and Terminate the EC2 instance (Jenkins Server) including EBS volumne to avoid any AWS bill charges
+- Stop and Terminate the EC2 instance (Jenkins Server) including EBS volume, Terraform resources (S3 and DynamoDB table) to avoid any AWS bill charges
 
 
 ### Complete jenkins pipeline
