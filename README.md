@@ -105,15 +105,18 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
   ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/c8e27fea-d724-4df0-a164-826adec8084e)
 
 - Now the SonarQube container should be up and running
+  
   ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/ab554118-4850-456b-88e7-4853bd85204c)
 
 - Copy the EC2 public ip, open the browser on your local machine and enter <EC2 public ip:9000>
-![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/1681c97f-837b-4433-91e4-19fc147b264a)
+
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/1681c97f-837b-4433-91e4-19fc147b264a)
 
 - In the SonarQube login screen, enter the username and password as 'admin'/'admin' (without '') and update with a new password (admin123)
+  
   ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/2b84f3b7-6dff-4ea6-97dd-4f16d1200073)
 
-![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/e6bde03e-16f2-4e73-90fb-bab8dc5cd6c6)
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/e6bde03e-16f2-4e73-90fb-bab8dc5cd6c6)
 
 - SonqarQube dashboard will be displayed
 ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/833de007-a59a-41b2-a304-4a594319865f)
@@ -190,10 +193,25 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
 - Grab the Public IP Address of your EC2 Instance, SonarQube works on Port 9000, so <Public IP>:9000.
 - Goto your SonarQube Server, then click on Administration > Security > Users >
 - Click on Tokens and Update Token → Give it a name → and click on 'Generate Token'
-- Goto Jenkins Dashboard > Manage Jenkins > Credentials > Add Secret Text. It should look like this
-- Now, go to Dashboard > Manage Jenkins > System and add as shown. Click 'Apply' and 'Save'
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/da7651e3-2f27-42a8-8fcd-bb79d4cd8046)
+
+- Goto Jenkins Dashboard > Manage Jenkins > Credentials > Add Secret Text. This will be the Sonar Token credentials. Click 'Create'
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/05367283-822e-4feb-affb-45c25061b030)
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/7948c543-0a62-46b8-9a42-127238197cd3)
+
+- Now, go to Dashboard > Manage Jenkins > System and add the Sonar Server
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/ac37c9c2-c76e-4114-b64c-0c6d942f564f)
+  
 - Goto Jenkins Dashboard > Manage Jenkins > Tools to install a Sonar Scanner
-- Go back to SonarQube dashboard, click Administration > Configuration > Webhooks and create a webhook (required to trigger the Sonar scan when the code is commited to GitHub). Add this detail and click 'Create'
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/1ffe5ed7-cf02-4130-a21c-ced26cfa1566)
+
+- Now lets add SonarQube quality gate. Head back to SonarQube dashboard, click Administration > Configuration > Webhooks and create a webhook (required to trigger the Sonar scan when the code is commited to GitHub). Add this detail and click 'Create'
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/8a05e480-f71c-4ae3-babf-85cafda81014)
+
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/3058a685-50a4-4575-ae06-504292ac35d5)
+
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/cc7ff6ce-494e-4c25-9929-48165da0488e)
+
 ```
   <http://jenkins-public-ip:8080>/sonarqube-webhook/
 ```
