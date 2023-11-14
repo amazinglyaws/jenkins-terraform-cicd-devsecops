@@ -470,6 +470,9 @@ variables.tf
   ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/d6b5544a-73c3-4e53-a2f7-1b7c3d956d4c)
 
 - See the Jenkins build pipeline console ouput. You can see two AWS resouces (EC2 instance and SG) being destroyed
+
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/74d71013-825a-4780-9dfb-8863144a801a)
+
   ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/d626e84c-b5e0-495e-ab3f-df78fcca7515)
   
 - Now head back to AWS EC2 console and check the status of EC2 instance 'SSN-EC2'. It should show as 'terminated'
@@ -480,7 +483,7 @@ variables.tf
 
 
 ### Step 7: Cleaup AWS Resources
-- Stop and Terminate the EC2 instance (Jenkins Server) including EBS volume, Terraform resources (S3 and DynamoDB table) to avoid any AWS bill charges
+- Stop and Terminate the EC2 instance (Jenkins Server) including EBS volume and also delete the terraform resources (S3 and DynamoDB table) to avoid any AWS bill charges.
 
 
 ### Complete jenkins pipeline
