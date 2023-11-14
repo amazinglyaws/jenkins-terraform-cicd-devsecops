@@ -151,11 +151,24 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
   - Eclipse Temurin Installer (Install without restart)
   - SonarQube Scanner (Install without restart)
   - Terraform
-  - Docker 
+
 ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/3ac5f382-814b-4c63-beee-99c6c1ffad0f)
 
 ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/d9e8893d-7053-430f-a69f-973c244f2cd0)
 
+  - Docker
+    - We need to install the Docker tool on the Jenkins server
+    - Goto Dashboard > Manage Plugins > Available plugins and search for Docker and install these plugins (without restart)
+      ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/d5be4146-03a1-45f5-bb6f-bb7332f340d6)
+
+- Now, goto Dashboard > Manage Jenkins > Tools. Click 'Apply and 'Save'
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/5b926b0d-29a9-4683-a641-bb4009b5f53c)
+
+- DockerHub Username adnd Password under 'Global credentials'
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/dd2cc188-5fde-4c1b-b0eb-0f3d6a3612fd)
+
+- The credentials should be displayed
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/f2b74027-9eff-4f13-8bdb-a607d87201b3)
 
 ### Step 2: Install Terraform (on Jenkins Server)
 - On the EC2 terminal, run the following command to install terraform
@@ -219,24 +232,26 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
 #### Step 2c: Create IAM Role, S3 bucket and Dynamo DB table (for Terraform)
 
 ##### Create IAM Role and add the following permissions
+- Add a new IAM role named 'jenkins-cicd' using AWS Console > IAM
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/8f264616-31a3-454e-8f7e-9fa9db550baa)
+
+- Attach this IAM role to Jenkins EC2 server
+  - go to the Jenkins EC2 instance and add this role
+  - select Jenkins instance > Actions > Security > Modify IAM role
+     ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/ab5f3807-4def-4ac7-9e72-0686845968ab)
+    
+  - select the newly created Role 'jenkins-cicd' and click on 'Update IAM role'
+    ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/51114935-49f0-4bdc-bb61-b55640b8f5ea)
+
 
 ##### Create an S3 bucket
+- Create an S3 bucket and give a name. This bucket name should match with the 'bucket' name given in backend.tf file
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/c9df855a-7ba5-4288-9311-60076b32f22f)
 
 ##### Create DynamoDB table
-
-#### Step 2d: Docker Plugin Setup
-- We need to install the Docker tool on the Jenkins server
-- Goto Dashboard > Manage Plugins > Available plugins and search for Docker and install these plugins (without restart)
-
-Docker
-Docker Commons
-Docker Pipeline
-Docker API
-docker-build-step
-
-- Now, goto Dashboard > Manage Jenkins > Tools and setup the DockerHub Username adnd Password under 'Global credentials'
-
-
+- Create a DynamoDB table. This table name should match with the 'dynamo_table' name given in backend.tf file
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/5f581987-3dfd-4656-be2f-0a54bc626202)
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/9d3971cf-c60c-4e82-a8ea-420fe1e71c62)
 
 ### Step 3: Setup Terraform
 - In your GitHub repository, cerate the following files for Terraform
@@ -286,10 +301,21 @@ variables.tf
   ```  
 
 ### Step 4: Setup Jenkins pipeline
+- Let's create a Job in Jenkins
+- Goto Jenkins dashboard and add a 'New Item' and select 'Pipeline'
+- Name it 'Terraform' and add the following pipeline code. Click 'Apply' and 'Save'
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/ff631b04-ce12-4d08-97d3-2064de0648de)
+
+- Click 'Build Now' to run the pipleine. If it is successful the following screen will be displayed
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/0679c6b8-ebd2-4237-acb6-8a6bbe2410ba)
+
+- Now got to SonarQube url and click 'Projects' to see the scan results
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/43f45a5f-b378-4b0d-9da5-e6f36e83916e)
+
 
 #### Step 4a: Create a Jenkins pipeline
  
-- Let's create a pipeline jobs in Jenkisn using declarative way
+- Let's create a pipeline jobs in Jenkins using declarative method
 
   ```
     pipeline{
@@ -342,15 +368,16 @@ variables.tf
   
   ```
 
-#### Step 4b: Setup permission for jenkins user to run the job
+#### Step 4b: Setup permission for jenkins user to run the User data
 
-- Log in to your Ubuntu system as a user with sudo privileges, or log in as the root user.
-- Open a terminal.
+- Log in to your Ubuntu system as a user with sudo privileges, or log in as the root user
+- Open a terminal
 - Run the following command to add a user (replace <username> with the actual username) to the sudo group:
   
   ```
-     sudo usermod -aG sudo <username>
+     sudo usermod -aG sudo <username>  # username is ubuntu in my case
   ``` 
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/8de3e84b-6920-49b7-b831-8665f4ed7918)
 
 - After running the command, the user will have sudo privileges. They can now execute commands with superuser privileges using sudo.
 
@@ -360,7 +387,8 @@ variables.tf
     sudo apt update
   ```
   
-- Now add the below stages to your pipeline
+
+- Now add the below stages to your pipeline. 'Apply' and 'Save' changes
    
   ```
      stage('Excutable permission to userdata'){
@@ -380,6 +408,10 @@ variables.tf
     }
   
   ```
+  
+- Run the build again and check the results. The new stages should be executed and the entire build should be successful
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/6047f89a-c41f-4195-aeb3-a1c0739e30ee)
+  
 
 6. Adding **aqua tfsec** for scsecurity scanning of the Terraform files. NOTE: for this demo this step is optional
 
@@ -396,23 +428,42 @@ variables.tf
      }
   ```
 - if you run the pipeline now, it will throw many security violations erros for the terraform file. So let's not use this stage for this demo
-- add a parameterized step in the pipeline with two options : a) apply b) destroy. Add this insude pipeline job as shown - TODO
-- add the following stage in your pipeline. The option selected (apply or destroy) will be executed by terraform based on the $action parameter when this stage executes
-  ```
-    stage('Terraform apply'){
-                steps{
-                    sh 'terraform ${action} --auto-approve'
-                }
-            }
-  ```
-- if 'apply' was selected thne terraform will 'create' the AWS infrastructure
+
+#### Step 4c: Setup the Terrform stage (fianl)
+- This stage is required to create the resources (EC2) in AWS when the 'Terraform apply' is executed
+  - for flexibility, we are going to add create this as a parameterized step in the pipeline with two options : a) apply b) destroy
+    ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/8722dd3d-af53-4468-a491-1d19931e9117)
+
+  - add the following stage in your pipeline. Click 'Save' and 'Apply'.
+  - The option selected (apply or destroy) will be executed by terraform based on the $action parameter when this stage executes
+    ```
+      stage('Terraform apply'){
+                  steps{
+                      sh 'terraform ${action} --auto-approve'
+                  }
+              }
+    ```
+    ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/ed69fd0a-0039-402f-8403-270ea6bf09dd)
+
+
+  - Now you should see a 'Build with Parameter' option on the Jenkins page
+    ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/dc585dd9-e0e1-45ef-b560-d507cc5c1cc1)
+
+  - Run the pipeline and select 'apply'. The pipeline should be successful
+    ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/a7ae59c8-2d8a-4485-91de-26b826c60946)
+
+  - Head back to AWS console the check EC2 console. An EC2 instance with name 'SSN-EC2' should be created. 
+    ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/efa568b8-4a9d-44b2-b446-7a7a7a6680ca)
+
+  - NOTE: Selecting 'destroy' from the parameterized option would trigger Terraform to 'destroy' the AWS resources
 
 ### Step 5: Running the application
-- Go back to your local browser and enter the following to access the Zomato we application
+- From the AWS EC2 console, copy the public ip of the 'SSN-EC2' server. Open your local browser and enter the following to access the Zomato application
   ```
     <EC2 instance-public-ip:3000> #zomato app container
   ```
-<img width="606" alt="image" src="https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/c64e4a16-e1dd-4cf3-85bd-0f715c79a773">
+  ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/7f46addb-2cd1-4c95-94d7-a58c55b0fe19)
+
 
 ### Step 6: Destroy AWS resources created using Terraform
 - To destroy the AWS resources, select the option 'destroy' at the 'Terraform apply' stage in the pipeline
