@@ -285,7 +285,7 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
 ### Step 3: Setup Terraform
 - In your GitHub repository, create the following files for Terraform
 
-    - backend.td : contains the terraform backend configs
+    - backend.tf : contains the terraform backend configs
     - provider.tf : contains the terraform provide config, in our case AWS is the provider
     - main.tf : contains code to build the AWS infrastructure, resources etc 
     - variables.tf : contains variables that are referenced from other files above
