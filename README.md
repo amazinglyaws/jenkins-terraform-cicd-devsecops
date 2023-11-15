@@ -1,7 +1,41 @@
+
 # Deploy a dockerised application to AWS using Jenking CICD and Terraform using DevSecOps practices
 Deploy an application to AWS using Jenkins and Terraform leveraging DevSecOps practices
 
 Tools : AWS EC2, Terraform (S3, DynamoDB), GitHub, Jenkins, Docker, SonarQube, Trivy, Tfsec 
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Deploy a dockerised application to AWS using Jenking CICD and Terraform using DevSecOps practices](#deploy-a-dockerised-application-to-aws-using-jenking-cicd-and-terraform-using-devsecops-practices)
+    - [Architecture](#architecture)
+      - [Add toc using doctoc plugin - todo](#add-toc-using-doctoc-plugin---todo)
+    - [Steps](#steps)
+- [Pre-requisites](#pre-requisites)
+    - [Step 1: Launch an EC2 instance (t2.medium)](#step-1-launch-an-ec2-instance-t2medium)
+      - [Step 1a: Install Jenkins](#step-1a-install-jenkins)
+      - [Step 1b: Install Docker and run SonarQueb container (using docker)](#step-1b-install-docker-and-run-sonarqueb-container-using-docker)
+      - [Step 1c: Install Trivy](#step-1c-install-trivy)
+      - [Step 1d: Install _JDK_, _SonarQube Scanner_, _Docker_ and _Terraform_ Plugins in Jenkins](#step-1d-install-_jdk_-_sonarqube-scanner_-_docker_-and-_terraform_-plugins-in-jenkins)
+    - [Step 2: Install Terraform (on Jenkins Server)](#step-2-install-terraform-on-jenkins-server)
+      - [Step 2a: Configure Java and Terraform tools in Jenkins Global Tools section](#step-2a-configure-java-and-terraform-tools-in-jenkins-global-tools-section)
+      - [Step 2b: Integrate SonarQube Server settings with Jenkins](#step-2b-integrate-sonarqube-server-settings-with-jenkins)
+      - [Step 2c: Create IAM Role, S3 bucket and Dynamo DB table (for Terraform)](#step-2c-create-iam-role-s3-bucket-and-dynamo-db-table-for-terraform)
+        - [Create IAM Role and add the following permissions](#create-iam-role-and-add-the-following-permissions)
+        - [Create an S3 bucket](#create-an-s3-bucket)
+        - [Create DynamoDB table](#create-dynamodb-table)
+    - [Step 3: Setup Terraform](#step-3-setup-terraform)
+    - [Step 4: Setup Jenkins pipeline](#step-4-setup-jenkins-pipeline)
+      - [Step 4a: Create a Jenkins pipeline](#step-4a-create-a-jenkins-pipeline)
+      - [Step 4b: Setup permission for jenkins user to run the User data](#step-4b-setup-permission-for-jenkins-user-to-run-the-user-data)
+      - [Step 4c: Setup the Terrform stage (fianl)](#step-4c-setup-the-terrform-stage-fianl)
+    - [Step 5: Running the application](#step-5-running-the-application)
+    - [Step 6: Destroy AWS resources created using Terraform](#step-6-destroy-aws-resources-created-using-terraform)
+    - [Step 7: Cleaup AWS Resources](#step-7-cleaup-aws-resources)
+    - [Complete jenkins pipeline](#complete-jenkins-pipeline)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ### Architecture
 
