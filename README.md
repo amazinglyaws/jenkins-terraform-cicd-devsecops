@@ -5,7 +5,8 @@ Tools : AWS EC2, Terraform (S3, DynamoDB), GitHub, Jenkins, Docker, SonarQube, T
 
 ### Architecture
 
-<img width="1021" alt="image" src="https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/2818390a-d227-45a2-8827-3397eb774373">
+<img width="959" alt="image" src="https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/1b7fad01-7d48-40b6-8766-b94bdb91fd89">
+
 
 #### Add toc using doctoc plugin - todo
 
