@@ -6,7 +6,7 @@ Tools : AWS EC2, Terraform (S3, DynamoDB), GitHub, Jenkins, Docker, SonarQube, T
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+**Table of Contents**  *generated with [DocToc]*
 
 - [Deploy a dockerised application to AWS using Jenking CICD and Terraform using DevSecOps practices](#deploy-a-dockerised-application-to-aws-using-jenking-cicd-and-terraform-using-devsecops-practices)
     - [Architecture](#architecture)
@@ -41,10 +41,6 @@ Tools : AWS EC2, Terraform (S3, DynamoDB), GitHub, Jenkins, Docker, SonarQube, T
 
 <img width="959" alt="image" src="https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/1b7fad01-7d48-40b6-8766-b94bdb91fd89">
 
-
-#### Add toc using doctoc plugin - todo
-
-### Steps
 
 # Pre-requisites
 - Create AWS Account
