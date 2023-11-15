@@ -13,7 +13,7 @@ Tools : AWS EC2, Terraform (S3, DynamoDB), GitHub, Jenkins, Docker, SonarQube, T
 - [Pre-requisites](#pre-requisites)
     - [Step 1: Launch an EC2 instance (t2.medium)](#step-1-launch-an-ec2-instance-t2medium)
       - [Step 1a: Install Jenkins](#step-1a-install-jenkins)
-      - [Step 1b: Install Docker and run SonarQueb container (using docker)](#step-1b-install-docker-and-run-sonarqueb-container-using-docker)
+      - [Step 1b: Install Docker and run SonarQueb container (using docker)](#step-1b-install-docker-and-run-sonarqube-container-using-docker)
       - [Step 1c: Install Trivy](#step-1c-install-trivy)
       - [Step 1d: Install _JDK_, _SonarQube Scanner_, _Docker_ and _Terraform_ Plugins in Jenkins](#step-1d-install-_jdk_-_sonarqube-scanner_-_docker_-and-_terraform_-plugins-in-jenkins)
     - [Step 2: Install Terraform (on Jenkins Server)](#step-2-install-terraform-on-jenkins-server)
@@ -114,7 +114,7 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
 - Jenkins dashboard will be displayed
   ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/32136804-1e7d-408c-ae8d-4c5e089cb92e)
 
-#### Step 1b: Install Docker and run SonarQueb container (using docker)
+#### Step 1b: Install Docker and run SonarQube container (using docker)
 
 - Install docker on the EC2 using the below commands
 
