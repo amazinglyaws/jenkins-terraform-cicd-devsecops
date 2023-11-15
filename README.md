@@ -33,7 +33,7 @@ Tools : AWS EC2, Terraform (S3, DynamoDB), GitHub, Jenkins, Docker, SonarQube, T
     - [Step 5: Running the application](#step-5-running-the-application)
     - [Step 6: Destroy AWS resources created using Terraform](#step-6-destroy-aws-resources-created-using-terraform)
     - [Step 7: Cleaup AWS Resources](#step-7-cleaup-aws-resources)
-    - [eference: Complete jenkins pipeline](#Reference-complete-jenkins-pipeline)
+    - [Appendix: Complete jenkins pipeline](#Appendix-complete-jenkins-pipeline)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -517,7 +517,8 @@ variables.tf
 - Stop and Terminate the EC2 instance (Jenkins Server) including EBS volume and also delete the terraform resources (S3 and DynamoDB table) to avoid any AWS bill charges.
 
 
-### Reference: Complete jenkins pipeline
+
+### Appendix: Complete jenkins pipeline
   ```
     pipeline{
       agent any
