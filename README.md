@@ -1,5 +1,5 @@
 
-# Deploy a dockerised application to AWS using Jenking CICD and Terraform using DevSecOps practices
+# Deploy a dockerised application to AWS EC2 using Jenkins CICD and Terraform leveraging DevSecOps practices
 Deploy an application to AWS using Jenkins and Terraform leveraging DevSecOps practices
 
 Tools : AWS EC2, Terraform (S3, DynamoDB), GitHub, Jenkins, Docker, SonarQube, Trivy, Tfsec 
@@ -8,10 +8,8 @@ Tools : AWS EC2, Terraform (S3, DynamoDB), GitHub, Jenkins, Docker, SonarQube, T
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc]*
 
-- [Deploy a dockerised application to AWS using Jenking CICD and Terraform using DevSecOps practices](#deploy-a-dockerised-application-to-aws-using-jenking-cicd-and-terraform-using-devsecops-practices)
+- [Deploy a dockerised application to AWS using Jenking CICD and Terraform leveraging DevSecOps practices](#deploy-a-dockerised-application-to-aws-using-jenking-cicd-and-terraform-using-devsecops-practices)
     - [Architecture](#architecture)
-      - [Add toc using doctoc plugin - todo](#add-toc-using-doctoc-plugin---todo)
-    - [Steps](#steps)
 - [Pre-requisites](#pre-requisites)
     - [Step 1: Launch an EC2 instance (t2.medium)](#step-1-launch-an-ec2-instance-t2medium)
       - [Step 1a: Install Jenkins](#step-1a-install-jenkins)
@@ -285,31 +283,12 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
   ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/9d3971cf-c60c-4e82-a8ea-420fe1e71c62)
 
 ### Step 3: Setup Terraform
-- In your GitHub repository, cerate the following files for Terraform
+- In your GitHub repository, create the following files for Terraform
 
-backend.td
-
-  ```
-    add code
-  ```
-
-provider.tf
-
-  ```
-    add code
-  ```
-
-main.tf
-
-  ```
-    add code
-  ```
-
-variables.tf
-
-  ```
-    add code
-  ```
+    - backend.td : contains the terraform backend configs
+    - provider.tf : contains the terraform provide config, in our case AWS is the provider
+    - main.tf : contains code to build the AWS infrastructure, resources etc 
+    - variables.tf : contains variables that are referenced from other files above
 
 - Now create a _website.sh_ file to add to the UserData section of the EC2 instance (refer tp main.tf)
 
