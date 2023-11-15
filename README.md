@@ -100,8 +100,6 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
   ```
   ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/dc8f35e6-cb0a-4eef-81df-54cd8b26555a)
 
-  <img width="700" height="500" alt="image" src="https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/dc8f35e6-cb0a-4eef-81df-54cd8b26555a">
-
 - Login using the admin credentials and click 'install the suggested plugins'
   ![image](https://github.com/amazinglyaws/jenkins-terraform-cicd-devsecops/assets/133778900/a5e55260-a21e-4dcf-bac0-57546db30796)
 
