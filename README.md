@@ -286,7 +286,32 @@ In this step we will spin up a new AWS EC2 (t2.medium) instance and install Jenk
 - In your GitHub repository, create the following files for Terraform
 
     - backend.tf : contains the terraform backend configs
+      ```
+          terraform {
+              backend "s3" {
+                bucket         = "terraform-jenkins-cicd-bucket"
+                key            = "my-terraform-environment/main"
+                region         = "us-east-1"
+                dynamodb_table = "terraform-jenkins-dynamodb-table"
+              }
+          }
+      ```
     - provider.tf : contains the terraform provide config, in our case AWS is the provider
+      ```
+          terraform {
+              required_providers {
+                aws = {
+                  source  = "hashicorp/aws"
+                  version = "~> 4.16"
+                }
+              }
+              required_version = ">= 1.2.0"
+           }
+            
+           provider "aws" {
+              region = var.aws_region
+           }
+      ```
     - main.tf : contains code to build the AWS infrastructure, resources etc 
     - variables.tf : contains variables that are referenced from other files above
 
