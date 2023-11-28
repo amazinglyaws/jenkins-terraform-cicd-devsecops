@@ -15,14 +15,6 @@ variable "ami_id" {
   default     = "ami-0fc5d935ebf8bc3bc"  
 }
 
-/*
-variable "bucket_name" {
-  description = "The name of the S3 bucket to create"
-  type        = string
-  default     = "mrcloudbook-777-ajaykumar-yegireddi"
-}
-*/
-
 variable "acl" {
   description = "The ACL (Access Control List) for the S3 bucket"
   type        = string
